@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: zuul
+  security:
+    user:
+      name: admin
+      password: admin123
+server:
+  port: 9999
+# 服务开始注册到eureka中心里面
+eureka:
+  client:
+    service-url:
+      defaultZone: http://172.23.216.152:8761/eureka, http://172.23.216.153:8761/eureka, http://172.23.216.154:8761/eureka
+      healthcheck: true
+  instance:
+    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 10
+    # 这个必须使用true
+    prefer-ip-address: true
+    instance-id: http://127.0.0.1:${server.port}
+# 配置zuul
+zuul:
+  routes:
+    product:
+      # 代理服务
+      path: /api-product/**
+      # 微服务名称
+      serviceId: mybatis
+# 实行监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
