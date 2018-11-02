@@ -1,10 +1,26 @@
+auth-server: http://localhost:7777 # 认证服务器地址
 spring:
   application:
     name: zuul
   security:
     user:
-      name: admin
-      password: admin123
+      name: user
+      password: admin
+security:
+  oauth2:
+    client:
+      # 授权服务器配置的client id
+      client-id: client
+      # 授权服务器配置的client secret
+      client-secret: secret
+      scope: app
+      # 获取access token接口
+      access-token-uri: ${auth-server}/oauth/token
+      #  获取Authorization Code接口
+      user-authorization-uri: ${auth-server}/oauth/authorize
+    resource:
+      # 验证token的接口
+      token-info-uri: ${auth-server}/oauth/check_token
 server:
   port: 9999
 # 服务开始注册到eureka中心里面
